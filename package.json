@@ -1,0 +1,32 @@
+{
+  "name": "wordpress-apache-toolkit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "setup": "node app.js setup",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-spinners": "^2.7.0",
+    "cli-table3": "^0.6.3",
+    "colors": "^1.4.0",
+    "columnify": "^1.6.0",
+    "dotenv": "^16.0.3",
+    "figlet": "^1.6.0",
+    "inquirer": "^8.0.0",
+    "mysql2": "^3.2.0",
+    "tail": "^2.2.6",
+    "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4"
+  }
+}
