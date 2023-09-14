@@ -9,7 +9,11 @@ colors.enable();
 module.exports = function removeSite(site) {
   async function deleteDatabase() {
     return new Promise((resolve, reject) => {
-      const command = `mysql -u${process.env.DB_USER} -p${process.env.DB_PASSWORD} -e "DROP DATABASE IF EXISTS ${site.database};"`;
+      // Handle the password part to support empty passwords.
+      const passwordPart = process.env.DB_PASSWORD
+        ? ` -p${process.env.DB_PASSWORD}`
+        : "";
+      const command = `mysql -u${process.env.DB_USER}${passwordPart} -e "DROP DATABASE IF EXISTS ${site.database};"`;
       exec(command, (error, stdout, stderr) => {
         if (error) {
           reject(error);

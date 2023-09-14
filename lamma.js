@@ -566,7 +566,9 @@ async function handleNginxSitesCommand(show = false) {
     FROM information_schema.tables
     WHERE table_schema = '${siteName}';
   `;
-                const command = `mysql -u${process.env.DB_USER} -p${process.env.DB_PASSWORD} -e "${query}"`;
+                // Handle the password part to support empty passwords.
+                const passwordPart = process.env.DB_PASSWORD ? ` -p${process.env.DB_PASSWORD}` : "";
+                const command = `mysql -u${process.env.DB_USER}${passwordPart} -e "${query}"`;
                 exec(command, (error, stdout, stderr) => {
                   if (error) {
                     reject(error);
