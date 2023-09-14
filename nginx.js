@@ -256,18 +256,30 @@ function displayTable(phpFPMInfo) {
 function setupNginxFileDirectories() {
   if (!fs.existsSync(lammaDirectory)) {
     fs.mkdirSync(lammaDirectory);
-    console.log(`Created ${lammaDirectory} folder`);
+    console.log(`Created ${lammaDirectory} folder`.grey);
+  } else {
+    console.log(`Found ${lammaDirectory} folder`.grey);
+  }
+
+  if (!fs.existsSync(logsDirectory)) {
+    fs.mkdirSync(logsDirectory);
+    console.log(`Created ${logsDirectory} folder`.grey);
+  } else {
+    console.log(`Found ${logsDirectory} folder`.grey);
   }
 
   if (!fs.existsSync(nginxServersDirectory)) {
     fs.mkdirSync(nginxServersDirectory);
-    console.log(`Created ${nginxServersDirectory} folder`);
+    console.log(`Created ${nginxServersDirectory} folder`.grey);
+  } else {
+    console.log(`Found ${nginxServersDirectory} folder`.grey);
   }
 
-  // Create the ssl folder if it doesn't exist
   if (!fs.existsSync(sslNginxDirectory)) {
     fs.mkdirSync(sslNginxDirectory);
-    console.log(`Created ${sslNginxDirectory} folder`);
+    console.log(`Created ${sslNginxDirectory} folder`.grey);
+  } else {
+    console.log(`Found ${sslNginxDirectory} folder`.grey);
   }
 }
 exports.setupNginxFileDirectories = setupNginxFileDirectories;

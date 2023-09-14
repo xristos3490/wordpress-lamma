@@ -14,19 +14,20 @@ const SHELL_RC_FILES = {
 };
 exports.SHELL_RC_FILES = SHELL_RC_FILES;
 
-const lammaDirectory = `/users/chris/lamma`;
+const HOME_DIRECTORY = process.env.HOME_DIRECTORY;
+const lammaDirectory = `${HOME_DIRECTORY}/lamma`;
 exports.lammaDirectory = lammaDirectory;
-
-const siteDirectory = "/users/chris/Sites";
-exports.siteDirectory = siteDirectory;
 
 const logsDirectory = `${lammaDirectory}/logs`;
 exports.logsDirectory = logsDirectory;
 
-const LOCAL_WOO_PATH = "/Users/chris/Repos/woocommerce/plugins/woocommerce";
+const siteDirectory = process.env.SITES_DIRECTORY;
+exports.siteDirectory = siteDirectory;
+
+const LOCAL_WOO_PATH = process.env.LOCAL_WOO_PATH;
 exports.LOCAL_WOO_PATH = LOCAL_WOO_PATH;
 
-const LOCAL_DUMMY_PATH = "/Users/chris/Repos/woocommerce-gateway-dummy";
+const LOCAL_DUMMY_PATH = process.env.LOCAL_DUMMY_PATH;
 exports.LOCAL_DUMMY_PATH = LOCAL_DUMMY_PATH;
 
 const phpVersionsPath = `${HOMEBREW_DIRECTORY}/etc/php`;

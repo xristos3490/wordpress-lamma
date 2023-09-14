@@ -173,10 +173,10 @@ async function setupNginxAndPHP() {
       });
     });
 
+    await handleNginxInstallation();
+
     console.log("- Setting up Nginx Directories".yellow);
     setupNginxFileDirectories();
-
-    await handleNginxInstallation();
 
     // Check if PHP 8.1 is installed using brew list
     let php81Installed = false;
