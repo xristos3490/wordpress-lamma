@@ -141,6 +141,13 @@ function writeHostsFile(siteName) {
 exports.writeHostsFile = writeHostsFile;
 
 async function handleWatchLog(siteName) {
+
+  // Create the log file.
+  if (!fs.existsSync(`${logsDirectory}/${siteName}.php.log`) ) {
+    console.log(`Creating log file for ${siteName}...`.blue);
+    fs.writeFileSync(`${logsDirectory}/${siteName}.php.log`, "");
+  }
+  console.log(`Watching log file for ${siteName}...`.blue);
   const tailStream = new tail.Tail(
     path.join(logsDirectory, siteName + ".php.log"),
     { fromBeginning: false, nLines: 100 }
