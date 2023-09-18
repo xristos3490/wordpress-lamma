@@ -398,14 +398,16 @@ async function handleNginxInfoCommand(siteName = false) {
       `Fetching site data for ${siteName}...`,
       async () => {
         const [theme, wpVersion] = await Promise.all([
-          runWPCommand("theme list --status=active --field=name", {
+          runWPCommand(
+            "theme list --skip-themes --skip-plugins --status=active --field=name",
+            {
             cwd: sitePath,
           }).then((output) => output.trim()),
-          runWPCommand("core version", { cwd: sitePath }).then((output) =>
+          runWPCommand("core version --skip-themes --skip-plugins", { cwd: sitePath }).then((output) =>
             output.trim()
           ),
         ]);
-        const plugins = await runWPCommand("plugin list", {
+        const plugins = await runWPCommand("plugin list --skip-themes --skip-plugins", {
           cwd: sitePath,
         }).then((output) => output.trim().split("\n"));
         return [theme, wpVersion, plugins];
@@ -534,10 +536,10 @@ async function handleNginxSitesCommand(show = false) {
           const runningPHPFPMVersions = await getRunningPHPFPMVersions();
           const [theme, wpVersion, phpValue, folderSize, dbSize] =
             await Promise.all([
-              runWPCommand("theme list --status=active --field=name", {
+              runWPCommand("theme list --status=active --field=name --skip-themes --skip-plugins", {
                 cwd: sitePath,
               }).then((output) => output.trim()),
-              runWPCommand("core version", { cwd: sitePath }).then((output) =>
+              runWPCommand("core version --skip-themes --skip-plugins", { cwd: sitePath }).then((output) =>
                 output.trim()
               ),
               new Promise((resolve, reject) => {
