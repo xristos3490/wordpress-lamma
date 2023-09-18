@@ -141,9 +141,8 @@ function writeHostsFile(siteName) {
 exports.writeHostsFile = writeHostsFile;
 
 async function handleWatchLog(siteName) {
-
   // Create the log file.
-  if (!fs.existsSync(`${logsDirectory}/${siteName}.php.log`) ) {
+  if (!fs.existsSync(`${logsDirectory}/${siteName}.php.log`)) {
     console.log(`Creating log file for ${siteName}...`.blue);
     fs.writeFileSync(`${logsDirectory}/${siteName}.php.log`, "");
   }
@@ -288,6 +287,31 @@ function fetchDefaultSymlinks(sitePath) {
   return symlinks;
 }
 exports.fetchDefaultSymlinks = fetchDefaultSymlinks;
+
+function copyFilesWithExclusions(srcDir, destDir, exclusions) {
+  const files = fs.readdirSync(srcDir);
+
+  for (const file of files) {
+    const srcPath = path.join(srcDir, file);
+    const destPath = path.join(destDir, file);
+
+    // Check if the current file matches any exclusion pattern
+    const shouldExclude = exclusions.some((exclude) => {
+      return file === exclude || srcPath.includes(path.join(exclude, "/"));
+    });
+
+    if (!shouldExclude) {
+      if (fs.statSync(srcPath).isDirectory()) {
+        // Recursively copy directories
+        fs.mkdirSync(destPath, { recursive: true });
+        copyFilesWithExclusions(srcPath, destPath, exclusions);
+      } else {
+        // Copy files
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+  }
+}
 
 /**
  * Returns an object with two arrays of commands to run before and after WordPress installation.
@@ -435,8 +459,11 @@ async function activateTheme(sitePath, theme) {
     if (filteredProjects.length === 1) {
       // project found and matches the conditions
       const project = filteredProjects[0];
-      const symlinkTarget = project.remoteDir
-        .replace("/srv/htdocs", sitePath)
+      // Find the index where "wp-content/" starts
+      const wpContentIndex = project.remoteDir.indexOf("wp-content/");
+      const symlinkTargetRel = project.remoteDir.substring(wpContentIndex);
+      const symlinkTarget = path
+        .join(sitePath, symlinkTargetRel)
         .replace(/\/+$/, "");
       try {
         // Create the symlink
@@ -470,6 +497,104 @@ async function activateTheme(sitePath, theme) {
   }
 }
 exports.activateTheme = activateTheme;
+
+async function unmanagePlugins(siteName) {
+  const projects = fetchProjects();
+  const symlinkedPlugins = await getManagedPlugins(siteName);
+  const sitePath = `${siteDirectory}/${siteName}`;
+  const pluginsDir = `${sitePath}/wp-content/plugins`;
+
+  if (symlinkedPlugins.length === 0) {
+    console.log("No symlinked plugins found in wp-content/plugins.");
+    return;
+  }
+
+  // Prompt the user to select plugins
+  const selectedPlugins = await inquirer.prompt([
+    {
+      type: "checkbox",
+      message: "Select plugins to remove symlinks and copy files",
+      name: "selected",
+      choices: symlinkedPlugins.map((plugin) => {
+        const found = projects.filter((project) => {
+          return project.value === plugin.name;
+        });
+
+        if (!found.length) {
+          return false;
+        }
+
+        return {
+          name: found[0].name,
+          value: plugin.name,
+        };
+      }),
+    },
+  ]);
+
+  // Process selected plugins
+  for (const pluginName of selectedPlugins.selected) {
+    const pluginPath = `${pluginsDir}/${pluginName}`;
+
+    // Find the project that matches the plugin name.
+    const filteredProjects = projects.filter(
+      (project) => project.value === pluginName
+    );
+
+    if (filteredProjects.length !== 1) {
+      console.error(`Error finding project for ${pluginName}`);
+      continue;
+    }
+
+    const project = filteredProjects[0];
+
+    // Remove symlink
+    try {
+      fs.unlinkSync(pluginPath);
+      console.log(`Removed symlink for ${pluginName}`);
+    } catch (err) {
+      console.error(`Error removing symlink for ${pluginName}: ${err.message}`);
+    }
+
+    // Copy files excluding specified directories
+    try {
+      const excludeArgs = [".git", ".cache", "node_modules/", "tests/"];
+
+      copyFilesWithExclusions(project.localDir, pluginPath, excludeArgs);
+
+      console.log(`Copied files for ${pluginName}`);
+    } catch (err) {
+      console.error(`Error copying files for ${pluginName}: ${err.message}`);
+    }
+  }
+}
+exports.unmanagePlugins = unmanagePlugins;
+
+async function getManagedPlugins(siteName) {
+  const sitePath = `${siteDirectory}/${siteName}`;
+
+  try {
+    const pluginsDir = `${sitePath}/wp-content/plugins`;
+    const installedPlugins = await runWPCommand(
+      "wp plugin list --format=json",
+      { cwd: sitePath }
+    );
+    const plugins = JSON.parse(installedPlugins);
+
+    // Filter only symlinks in wp-content/plugins
+    const symlinkedPlugins = plugins.filter((plugin) => {
+      const pluginPath = path.join(pluginsDir, plugin.name);
+      return (
+        fs.existsSync(pluginPath) && fs.lstatSync(pluginPath).isSymbolicLink()
+      );
+    });
+
+    return symlinkedPlugins;
+  } catch (err) {
+    console.error("Error getting list of installed plugins:", err);
+    return [];
+  }
+}
 
 async function activatePlugins(sitePath, plugins) {
   try {
@@ -538,8 +663,11 @@ async function activatePlugins(sitePath, plugins) {
       if (filteredProjects.length === 1) {
         // project found and matches the conditions
         const project = filteredProjects[0];
-        const symlinkTarget = project.remoteDir
-          .replace("/srv/htdocs", sitePath)
+        // Find the index where "wp-content/" starts
+        const wpContentIndex = project.remoteDir.indexOf("wp-content/");
+        const symlinkTargetRel = project.remoteDir.substring(wpContentIndex);
+        const symlinkTarget = path
+          .join(sitePath, symlinkTargetRel)
           .replace(/\/+$/, "");
         try {
           if (plugin !== "woocommerce") {
