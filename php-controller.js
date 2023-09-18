@@ -4,7 +4,7 @@ const { exec, execSync } = require("child_process");
 const colors = require("colors");
 const Table = require("cli-table3");
 const { reloadNginx } = require("./nginx");
-const { nginxServersDirectory } = require("./constants");
+const { nginxServersDirectory, logsDirectory } = require("./constants");
 const inquirer = require("inquirer");
 colors.enable();
 
@@ -392,8 +392,7 @@ async function selectPHP(siteName) {
 exports.selectPHP = selectPHP;
 
 function addXdebugConfiguration(phpIniPath) {
-  const configToAdd =
-    '[xdebug]\nzend_extension="xdebug.so"\nxdebug.mode=debug\nxdebug.client_port=9003\nxdebug.idekey=PHPSTORM\n';
+  const configToAdd = `[xdebug]\nzend_extension="xdebug.so"\nxdebug.mode=debug,develop\nxdebug.log = ${logsDirectory}/xdebug.log\nxdebug.remote_log = ${logsDirectory}/xdebug.log\nxdebug.client_port=9003\nxdebug.start_with_request=yes`;
 
   // Check if the configuration already exists in php.ini
   const existingConfig = fs.readFileSync(phpIniPath, "utf8");

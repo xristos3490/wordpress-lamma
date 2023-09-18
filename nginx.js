@@ -334,8 +334,8 @@ server {
         fastcgi_pass 127.0.0.1:9027;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PHP_FLAG "display_errors=on \n display_startup_errors=on \n error_reporting=E_ALL";
-        fastcgi_param PHP_VALUE "error_log=/users/chris/lamma/logs/nginxtest.nginx.php.error.log \n memory_limit=512M \n upload_max_filesize=128M \n post_max_size=128M";
+        fastcgi_param PHP_FLAG "display_errors=on; display_startup_errors=on; error_reporting=E_ALL";
+        fastcgi_param PHP_VALUE "error_log=${logsDirectory}/${siteName}.php.log; memory_limit=512M; upload_max_filesize=128M; post_max_size=128M";
     }
 }
 `;

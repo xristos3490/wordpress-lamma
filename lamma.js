@@ -27,6 +27,7 @@ const {
   sslNginxDirectory,
   SHELL_RC_FILES,
   HOMEBREW_DIRECTORY,
+  logsDirectory,
 } = require("./constants.js");
 
 const {
@@ -690,6 +691,9 @@ async function handleNginxAddCommand(siteName, theme, plugins, title) {
 
   // Create the site directory
   fs.mkdirSync(sitePath);
+
+  // Create the log file.
+  fs.writeFileSync(`${logsDirectory}/${siteName}.php.log`, "");
 
   // Setup server.
   console.log("Configuring server".blue);
