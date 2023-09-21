@@ -172,7 +172,7 @@ This will ensure that MySQL runs as a background service, and it will start auto
 
 #### Set a Default Root Password
 
-- Access MySQL: To access MySQL, open your terminal and run the following command:
+- To access MySQL, open your terminal and run the following command:
 
 ```bash
 mysql -u root
