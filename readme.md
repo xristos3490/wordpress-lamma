@@ -93,7 +93,7 @@ Assign distinct port numbers to PHP-FPM versions and set the process owner to th
 - `--help` (`-h`): Display help information for the script and its commands.
 - `--version` (`-v`): Display the script's version information.
 
-### Managing Projects in `woa_projects.json`
+### Managing Projects
 
 Lamma can search for themes and plugins in the `~/.woa_projects.json` file, a JSON file listing all your projects. This file should be in your home directory (`~/`). Here's a sample:
 
