@@ -28,14 +28,6 @@ List all configured sites. Use the `--all` option for a more detailed listing.
 
 Retrieve information about a specific site by providing its name.
 
-### `lamma add-plugins <name>`
-
-Add a symlink to a plugin within the site's plugins directory.
-
-### `lamma switch-theme <name>`
-
-Change the theme of a specific site.
-
 ### `lamma add --name <name> [--title <title>] [--theme <theme>] [--plugins <plugins>]`
 
 Create a new site with customizable options:
@@ -60,6 +52,19 @@ Change the PHP version of a specific site.
 ### `lamma wp <name>`
 
 WP CLI alias for a specific site.
+
+
+### `lamma add-plugins <name>`
+
+Add a symlink to a plugin within the site's plugins directory.
+
+### `lamma unmanage-plugins <name>`
+
+Remove a symlink to a plugin by copying the plugin's files to the site's plugins directory.
+
+### `lamma switch-theme <name>`
+
+Change the theme of a specific site.
 
 ### `lamma server <action>`
 
@@ -141,30 +146,26 @@ To install Lamma, follow these steps:
 1. Clone the repository to your local machine.
 2. Navigate to the cloned directory.
 3. Run npm install to install dependencies.
-
 4. Copy the `env.sample` file to `.env` and fill it in with your specific details.
-
 5. Run npm run setup to configure the tool.
-
-6. (Optional) Create `~/.woa_projects.json` with your project list (refer to the example in the Usage section). Ensure that you avoid trailing commas in your JSON objects or properties.
-
-7. (Optional) Run the source command as described to update the shell.
+6. _(Optional)_ Create `~/.woa_projects.json` with your project list (refer to the example in the Usage section). Ensure that you avoid trailing commas in your JSON objects or properties.
+7. _(Optional)_ Run the source command as described to update the shell.
 
 ### Install and Start MySQL with Homebrew
 
-- Install MySQL: If you haven't already installed MySQL, you can do so using Homebrew. Open your terminal and run the following command:
+- If you haven't already installed MySQL, you can do so using Homebrew. Open your terminal and run the following command:
 
 ```bash
 brew install mysql
 ```
-- Start MySQL Service: After the installation is complete, start the MySQL service with the following command:
+- After the installation is complete, start the MySQL service with the following command:
 
 ```bash
 brew services start mysql
 ```
 This will ensure that MySQL runs as a background service, and it will start automatically whenever you boot your computer.
 
-#### Set or Change the Root Password to 'root'
+#### Set a Default Root Password
 
 - Access MySQL: To access MySQL, open your terminal and run the following command:
 
@@ -173,13 +174,13 @@ mysql -u root
 ```
 You may be prompted to enter your password. If you haven't set a password yet, just press Enter (leave it blank) for now.
 
-- Change Root Password: Once you are in the MySQL shell, use the following SQL command to set the root user's password to 'root' (you can replace 'root' with your desired password):
+- Once you are in the MySQL shell, use the following SQL command to set the root user's password to 'root' (you can replace 'root' with your desired password):
 
 ```sql
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
 ```
 
-- Exit MySQL: Exit the MySQL shell by typing:
+- Exit the MySQL shell by typing:
 
 ```sql
 exit;
