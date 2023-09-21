@@ -6,25 +6,15 @@ Lamma is a versatile command-line interface (CLI) tool designed for effortless W
 
 Before harnessing the power of Lamma, ensure that the following software is installed on your system:
 
-- **Node.js v16 or higher:** Lamma relies on Node.js, so you'll need version 16 or newer. Download it from [nodejs.org](https://nodejs.org/).
-
-- **Homebrew (macOS only):** If you're using macOS, you can streamline package installations with Homebrew. To get Homebrew, open your terminal and execute this command:
-
-## Prerequisites
-
-Before harnessing the power of Lamma, ensure that the following software is installed on your system:
-
 - **Node.js v16**: Lamma relies on Node.js, so you'll need version 16 or newer. Download it from nodejs.org.
 
 - **Homebrew**: You can streamline package installations with Homebrew. To get Homebrew, open your terminal and execute this command:
-
-- **MySQL or MariaDB**: Ensure that MySQL or MariaDB is installed and running as a service with Homebrew. If not, provide the steps to install and start the MySQL service. Also, ensure that the DB server uses a root password; if not, provide the SQL to change the root user's password to 'root'.
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-For other operating systems, consult the Homebrew documentation for installation instructions.
+- **MySQL or MariaDB**: Ensure that MySQL or MariaDB is installed and running as a service with Homebrew. If not, please follow the steps [here](https://github.com/xristos3490/wordpress-lamma).
 
 ## Usage
 
