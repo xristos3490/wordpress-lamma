@@ -193,15 +193,17 @@ Now, you have MySQL installed and running as a service with Homebrew, and the ro
 
 ## Disclaimer
 
-Please take note of the following important considerations and disclaimers when using Lamma:
+Please take note of the following important considerations when using Lamma:
 
 1. **Nginx Configuration Backup:** When you install Lamma, it will replace the default Nginx configuration. To ensure that your original configuration is not lost, Lamma creates a backup file at `${brew --prefix}/etc/nginx/nginx.lamma.backup.conf`. In the event of any issues, you can restore your previous Nginx configuration from this backup.
 
 2. **PHP FPM Port Configurations:** Running the `lamma php-doctor` command may modify existing PHP FPM port configurations. Please exercise caution when using this command, especially if you have specific PHP configuration requirements.
 
-3. **httpd Service Conflict:** Lamma is designed to work with Nginx and may conflict with Apache or other httpd services running at port 80. Ensure that you have no conflicting services running on the same port to avoid any issues.
+## Troubleshooting
 
-4. **Troubleshooting PHP FPM Services:** If you encounter difficulties with starting any `php@x.x` FPM service, you can try reinstalling the dependencies by running the following command (e.g., for PHP 8.1):
+- **httpd Service Conflict:** Lamma is designed to work with Nginx and may conflict with Apache or other httpd services running at port 80. Ensure that you have no conflicting services running on the same port to avoid any issues.
+
+- **Troubleshooting PHP FPM Services:** If you encounter difficulties with starting any `php@x.x` FPM service, you can try reinstalling the dependencies by running the following command (e.g., for PHP 8.1):
 
 ```bash
 brew reinstall $(brew deps shivammathur/php/php@8.1) shivammathur/php/php@8.1
