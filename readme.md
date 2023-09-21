@@ -13,7 +13,7 @@ Before harnessing the power of Lamma, ensure that the following software is inst
 
 - **NodeJS**: Lamma relies on Node.js, so you'll need version 16 or newer. Download it from nodejs.org.
 
-- **Homebrew**: You can streamline package installations with Homebrew. To get Homebrew, open your terminal and execute this command:
+- **Homebrew**: To get Homebrew, open your terminal and execute this command:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -68,7 +68,6 @@ Change the theme of a specific site.
 #### `lamma php-change <name> <phpVersion>`
 
 Change the PHP version of a specific site.
-- Provide the site's name and the desired PHP version as arguments.
 
 #### `lamma server <action>`
 
