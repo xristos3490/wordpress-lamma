@@ -1,3 +1,8 @@
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)
+![Nginx](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+
+
 # Lamma - WordPress Local Development CLI
 
 Lamma is a versatile command-line interface (CLI) tool designed for effortless WordPress site management on your local machine. With its lightweight and flexible features tailored to the Nginx server, Lamma simplifies site creation, theme and plugin management, and site removal tasks.
