@@ -25,15 +25,15 @@ Before harnessing the power of Lamma, ensure that the following software is inst
 
 Lamma boasts an array of commands that you can invoke using the `lamma` command, followed by your desired action. Here's a summary of the available commands:
 
-### `lamma sites [--all]`
+#### `lamma sites [--all]`
 
 List all configured sites. Use the `--all` option for a more detailed listing.
 
-### `lamma info <name>`
+#### `lamma info <name>`
 
 Retrieve information about a specific site by providing its name.
 
-### `lamma add --name <name> [--title <title>] [--theme <theme>] [--plugins <plugins>]`
+#### `lamma add --name <name> [--title <title>] [--theme <theme>] [--plugins <plugins>]`
 
 Create a new site with customizable options:
 - `--name`: The name of the new site (required).
@@ -41,37 +41,37 @@ Create a new site with customizable options:
 - `--theme`: The ID of the theme to use (optional).
 - `--plugins`: A comma-separated list of plugin IDs to use (optional).
 
-### `lamma remove <name>`
+#### `lamma remove <name>`
 
 Remove a site by providing its name as an argument.
 
-### `lamma logs <name>`
+#### `lamma logs <name>`
 
 Display logs for a specific site.
 
-### `lamma php-change <name> <phpVersion>`
+#### `lamma php-change <name> <phpVersion>`
 
 Change the PHP version of a specific site.
 - Provide the site's name and the desired PHP version as arguments.
 
-### `lamma wp <name>`
+#### `lamma wp <name>`
 
 WP CLI alias for a specific site.
 
 
-### `lamma add-plugins <name>`
+#### `lamma add-plugins <name>`
 
 Add a symlink to a plugin within the site's plugins directory.
 
-### `lamma unmanage-plugins <name>`
+#### `lamma unmanage-plugins <name>`
 
 Remove a symlink to a plugin by copying the plugin's files to the site's plugins directory.
 
-### `lamma switch-theme <name>`
+#### `lamma switch-theme <name>`
 
 Change the theme of a specific site.
 
-### `lamma server <action>`
+#### `lamma server <action>`
 
 Manage the Nginx server with the following actions:
 
@@ -80,20 +80,20 @@ Manage the Nginx server with the following actions:
 - `reload`: Reload the Nginx configuration.
 - `php`: Check the PHP status.
 
-### `lamma hosts-doctor`
+#### `lamma hosts-doctor`
 
 Fix the hosts file for all configured sites.
 
-### `lamma php-doctor`
+#### `lamma php-doctor`
 
 Assign distinct port numbers to PHP-FPM versions and set the process owner to the current user. Be cautious, as it may interrupt existing PHP connections.
 
-### Additional Options
+#### Additional Options
 
 - `--help` (`-h`): Display help information for the script and its commands.
 - `--version` (`-v`): Display the script's version information.
 
-### Managing Projects
+## Managing Projects
 
 Lamma can search for themes and plugins in the `~/.woa_projects.json` file, a JSON file listing all your projects. This file should be in your home directory (`~/`). Here's a sample:
 
@@ -140,9 +140,9 @@ Each project is defined with the following properties:
 - `value`: A unique identifier.
 - `args`: An array of rsync arguments for project syncing.
 - `localDir`: The local directory where the project resides.
-- `remoteDir`: The remote directory for project syncing.
+- `remoteDir`: The directory inside the site's document root.
 
-By maintaining your projects in `woa_projects.json`, you can effortlessly manage themes and plugins across all your projects with Lamma.
+By maintaining your projects in `.woa_projects.json`, you can effortlessly manage themes and plugins across all your projects with Lamma.
 
 ## Installation
 
