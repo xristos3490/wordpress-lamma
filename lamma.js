@@ -97,7 +97,7 @@ function checkNode() {
   );
 
   // Check if the major versions match
-  if (majorVersion !== currentMajorVersion) {
+  if (majorVersion > currentMajorVersion) {
     console.log(
       `Error: The system is running Node.js v${currentMajorVersion}, but this app requires v${majorVersion}`
         .red

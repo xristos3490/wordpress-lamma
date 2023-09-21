@@ -5,13 +5,13 @@
 
 # Lamma - WordPress Local Development CLI
 
-Lamma is a versatile command-line interface (CLI) tool designed for effortless WordPress site management on your local machine. With its lightweight and flexible features tailored to the Nginx server, Lamma simplifies site creation, theme and plugin management, and site removal tasks.
+Lamma is a command-line interface tool designed for effortless WordPress site management on your local machine. With its lightweight and flexible features tailored to the Nginx server, Lamma simplifies site creation, theme and plugin management, and site removal tasks.
 
 ## Prerequisites
 
 Before harnessing the power of Lamma, ensure that the following software is installed on your system:
 
-- **Node.js v16**: Lamma relies on Node.js, so you'll need version 16 or newer. Download it from nodejs.org.
+- **NodeJS**: Lamma relies on Node.js, so you'll need version 16 or newer. Download it from nodejs.org.
 
 - **Homebrew**: You can streamline package installations with Homebrew. To get Homebrew, open your terminal and execute this command:
 
@@ -31,7 +31,7 @@ List all configured sites. Use the `--all` option for a more detailed listing.
 
 #### `lamma info <name>`
 
-Retrieve information about a specific site by providing its name.
+Retrieve information about a specific site.
 
 #### `lamma add --name <name> [--title <title>] [--theme <theme>] [--plugins <plugins>]`
 
@@ -196,9 +196,3 @@ Now, you have MySQL installed and running as a service with Homebrew, and the ro
 ## License
 
 This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
-
-## Acknowledgments
-
-Lamma is maintained by the dedicated Lamma development team. We welcome contributions and invite you to explore the project on [GitHub](https://github.com/your-repo-link).
-
-For questions, issues, or support, please visit the [GitHub repository](https://github.com/your-repo-link) or reach out to us at [your-contact-email@example.com](mailto:your-contact-email@example.com).
