@@ -152,9 +152,9 @@ To install Lamma, follow these steps:
 2. Navigate to the cloned directory.
 3. Run npm install to install dependencies.
 4. Copy the `env.sample` file to `.env` and fill it in with your specific details.
-5. Run npm run setup to configure the tool.
+5. Run `npm run setup`` to configure the tool.
 6. _(Optional)_ Create `~/.woa_projects.json` with your project list (refer to the example in the Usage section). Ensure that you avoid trailing commas in your JSON objects or properties.
-7. _(Optional)_ Run the source command as described to update the shell.
+7. _(Optional)_ Run the source command as described to update the shell or open a new terminal window.
 
 ### Install and Start MySQL with Homebrew
 
