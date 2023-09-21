@@ -49,15 +49,9 @@ Remove a site by providing its name as an argument.
 
 Display logs for a specific site.
 
-#### `lamma php-change <name> <phpVersion>`
-
-Change the PHP version of a specific site.
-- Provide the site's name and the desired PHP version as arguments.
-
 #### `lamma wp <name>`
 
 WP CLI alias for a specific site.
-
 
 #### `lamma add-plugins <name>`
 
@@ -70,6 +64,11 @@ Remove a symlink to a plugin by copying the plugin's files to the site's plugins
 #### `lamma switch-theme <name>`
 
 Change the theme of a specific site.
+
+#### `lamma php-change <name> <phpVersion>`
+
+Change the PHP version of a specific site.
+- Provide the site's name and the desired PHP version as arguments.
 
 #### `lamma server <action>`
 
