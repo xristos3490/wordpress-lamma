@@ -5,7 +5,7 @@
 
 # Lamma - WordPress Local Development CLI
 
-Lamma is a command-line interface tool designed for effortless WordPress site management on your local machine. With its lightweight and flexible features tailored to the Nginx server, Lamma simplifies site creation, theme and plugin management, and site removal tasks.
+Lamma is a lightweight homebrew-based development environment tool designed for effortless WordPress site management on your local machine. 
 
 ## Prerequisites
 
@@ -197,7 +197,7 @@ Please take note of the following important considerations when using Lamma:
 
 1. **Nginx Configuration Backup:** When you install Lamma, it will replace the default Nginx configuration. To ensure that your original configuration is not lost, Lamma creates a backup file at `${brew --prefix}/etc/nginx/nginx.lamma.backup.conf`. In the event of any issues, you can restore your previous Nginx configuration from this backup.
 
-2. **PHP FPM Port Configurations:** Running the `lamma php-doctor` command may modify existing PHP FPM port configurations. Please exercise caution when using this command, especially if you have specific PHP configuration requirements.
+2. **PHP FPM Port Configurations:** Running the `lamma php-doctor` command may modify existing PHP FPM port configurations. Please exercise caution when using this command, especially if you have specific PHP configuration requirements. Also, I have only tested this using FPM port numbers instead of socket files.
 
 ## Troubleshooting
 
@@ -207,6 +207,7 @@ Please take note of the following important considerations when using Lamma:
 
 ```bash
 brew reinstall $(brew deps shivammathur/php/php@8.1) shivammathur/php/php@8.1
+brew services start php@8.1
 ```
 
 This command can help resolve dependencies and potential issues with PHP FPM services.
