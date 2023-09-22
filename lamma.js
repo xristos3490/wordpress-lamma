@@ -17,7 +17,7 @@ const {
   wrapWithLoader,
   activatePlugins,
   activateTheme,
-  restoreWordPressSite,
+  unmanagePlugins,
 } = require("./utils");
 
 const {
@@ -97,7 +97,7 @@ function checkNode() {
   );
 
   // Check if the major versions match
-  if (majorVersion !== currentMajorVersion) {
+  if (majorVersion > currentMajorVersion) {
     console.log(
       `Error: The system is running Node.js v${currentMajorVersion}, but this app requires v${majorVersion}`
         .red
@@ -245,6 +245,16 @@ function boot() {
         });
       }
     )
+    .command(
+      "unmanage-plugins <name>",
+      "Removes a symlink to a plugin inside the ~/.woa_projects.json file in the site's plugins directory",
+      (yargs) => {
+        yargs.positional("name", {
+          describe: "The name of the site to remove the managed plugin from",
+          type: "string",
+        });
+      }
+    )
     .command("switch-theme <name>", "Switches the theme of a site", (yargs) => {
       yargs.positional("name", {
         describe: "The name of the site to switch theme",
@@ -342,6 +352,9 @@ function boot() {
     case "add-plugins":
       activatePlugins(path.join(siteDirectory, argv.name), []);
       return;
+    case "unmanage-plugins":
+      unmanagePlugins(argv.name);
+      return;
     case "switch-theme":
       activateTheme(path.join(siteDirectory, argv.name), false);
       return;
@@ -376,7 +389,8 @@ function boot() {
           return;
         case "test":
           // TESTING.
-          restoreWordPressSite("storefront");
+          // restoreWordPressSite("storefront");
+          unmanagePlugins("woo");
           return;
         default:
           console.error(`Invalid command: ${argv._[1]}`);
@@ -401,15 +415,19 @@ async function handleNginxInfoCommand(siteName = false) {
           runWPCommand(
             "theme list --skip-themes --skip-plugins --status=active --field=name",
             {
+              cwd: sitePath,
+            }
+          ).then((output) => output.trim()),
+          runWPCommand("core version --skip-themes --skip-plugins", {
             cwd: sitePath,
           }).then((output) => output.trim()),
-          runWPCommand("core version --skip-themes --skip-plugins", { cwd: sitePath }).then((output) =>
-            output.trim()
-          ),
         ]);
-        const plugins = await runWPCommand("plugin list --skip-themes --skip-plugins", {
-          cwd: sitePath,
-        }).then((output) => output.trim().split("\n"));
+        const plugins = await runWPCommand(
+          "plugin list --skip-themes --skip-plugins",
+          {
+            cwd: sitePath,
+          }
+        ).then((output) => output.trim().split("\n"));
         return [theme, wpVersion, plugins];
       }
     );
@@ -536,12 +554,15 @@ async function handleNginxSitesCommand(show = false) {
           const runningPHPFPMVersions = await getRunningPHPFPMVersions();
           const [theme, wpVersion, phpValue, folderSize, dbSize] =
             await Promise.all([
-              runWPCommand("theme list --status=active --field=name --skip-themes --skip-plugins", {
+              runWPCommand(
+                "theme list --status=active --field=name --skip-themes --skip-plugins",
+                {
+                  cwd: sitePath,
+                }
+              ).then((output) => output.trim()),
+              runWPCommand("core version --skip-themes --skip-plugins", {
                 cwd: sitePath,
               }).then((output) => output.trim()),
-              runWPCommand("core version --skip-themes --skip-plugins", { cwd: sitePath }).then((output) =>
-                output.trim()
-              ),
               new Promise((resolve, reject) => {
                 const phpVersion = getPhpVersionFromNginxConfig(
                   `${nginxServersDirectory}/${siteName}.conf`
@@ -570,7 +591,9 @@ async function handleNginxSitesCommand(show = false) {
     WHERE table_schema = '${siteName}';
   `;
                 // Handle the password part to support empty passwords.
-                const passwordPart = process.env.DB_PASSWORD ? ` -p${process.env.DB_PASSWORD}` : "";
+                const passwordPart = process.env.DB_PASSWORD
+                  ? ` -p${process.env.DB_PASSWORD}`
+                  : "";
                 const command = `mysql -u${process.env.DB_USER}${passwordPart} -e "${query}"`;
                 exec(command, (error, stdout, stderr) => {
                   if (error) {
